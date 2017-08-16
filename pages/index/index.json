@@ -1,4 +1,5 @@
 {
-    "backgroundTextStyle": "dark",
-    "enablePullDownRefresh": true
+    "navigationBarTitleText": "小链Lite",
+    "enablePullDownRefresh": true,
+    "backgroundTextStyle": "dark"
 }

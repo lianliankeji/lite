@@ -85,11 +85,15 @@
 .qrcode {
   width:300rpx;
   height: 96rpx;   
-  border-radius: 40rpx; 
+  border-radius: 48rpx; 
+  line-height: 96rpx;
   margin-top: 45rpx;
-  opacity: 0.3;
+   opacity: 0.4; 
   vertical-align: middle;
   background-color: forestgreen;
+}
+.qrcode::after{
+   opacity: 0;
 }
 
 .bind {

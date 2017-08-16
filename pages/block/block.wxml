@@ -1,6 +1,6 @@
 <view class="container">
     <view class="title">
-       <text>区块 {{index}}</text>
+       
     </view>   
     <view class="info">
        <text class="itemname">PHash</text>

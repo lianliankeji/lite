@@ -20,18 +20,21 @@ App({
                 wx.setStorageSync('userInfo', objz);//存储userInfo  
               }
             });
-            var d = that.globalData;//这里存储了appid、secret、token串    
-            var l = 'https://lite.lianlianchains.com/wx/getopenid?code=' + res.code;
+            var d = that.globalData;//这里存储了appid、secret、token串   
+            var l = 'https://store.lianlianchains.com/wx/getliteopenid?code=' + res.code;
+            // var l = 'http://192.168.50.186:9888/wx/getliteopenid?code=' + res.code;
             wx.request({
               url: l,
               data: {},
               method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT    
               // header: {}, // 设置请求的 header    
               success: function (res) {
+                 console.log(res)
                 var obj = {};
                 obj.openid = res.data.openid;
                 obj.expires_in = Date.now() + res.data.expires_in;
                 wx.setStorageSync('user', obj);//存储openid    
+                console.log(wx.getStorageSync('user'))
               }
             });
           } else {
@@ -60,6 +63,8 @@ App({
     }
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    stores:'6574714a89d14f50448ba41ca3db17029523be445bacdbcf3b5d1ee3abe19a5e',
+    health: ''
   }
 })

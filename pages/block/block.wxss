@@ -1,34 +1,35 @@
 .title {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    border-bottom: 1px solid;
-    border-bottom-color: green;
-    height: 60rpx;
-    margin: 20rpx 40rpx 0rpx 40rpx;
+   border-bottom: 1px solid;
+   border-bottom-color: #ECECEC;
+   height: 60rpx;
 }
 
 .info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: 30rpx;
-    margin: 20rpx 40rpx 20rpx 40rpx;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   font-size: 30rpx;
+   margin: 20rpx 40rpx 20rpx 40rpx;
 }
 
 .itemname {
-    width: 100rpx;
-    font-weight: bold;
+   width: 116rpx;
+   font-weight: bold;
+   font-size: 16px;
+   color: #333;
+   letter-spacing: -0.39px;
+   line-height: 23px;
 }
 
 .item {
-   word-break: break-all; 
+   width: 526rpx;
+   word-break: break-all;
    padding: 0rpx 0rpx 0rpx 40rpx;
 }
 
 .line {
-    border-bottom: 1px solid;
-    border-bottom-color: green;
-    margin: 20rpx 40rpx 0rpx 40rpx;
+   border-bottom: 1px solid;
+   border-bottom-color: green;
+   margin: 20rpx 40rpx 0rpx 40rpx;
 }

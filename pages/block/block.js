@@ -15,9 +15,12 @@ Page({
       'index': index,
       hiddenLoading: false
     })
+    wx.setNavigationBarTitle({
+       title: '区块'+index
+    })
     // 区块信息
     wx.request({
-      url: 'https://lite.lianlianchains.com/chain/blocks/' + index,
+       url: 'https://store.lianlianchains.com/chain/blocks/' + index,
       data: {
       },
       header: {

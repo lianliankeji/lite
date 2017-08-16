@@ -1,4 +1,6 @@
 // pages/bind/bind.js
+import fetch from '../../utils/fetch'
+import {recharge} from '../../utils/score'
 Page({
   data: {
     hiddenLoading: true,
@@ -42,7 +44,7 @@ Page({
 
       // 发送验证码
       wx.request({
-        url: 'https://lite.lianlianchains.com/sms/send',
+        url: 'https://store.lianlianchains.com/sms/send',
         data: {
           mobile: mobile
         },
@@ -127,7 +129,7 @@ Page({
 
     // 验证码校验
     wx.request({
-      url: 'https://lite.lianlianchains.com/sms/verify',
+      url: 'https://store.lianlianchains.com/sms/verify',
       data: {
         mobile: mobile,
         code: code
@@ -159,43 +161,53 @@ Page({
           });
           wx.setStorageSync('mobile', mobile);
           wx.setStorageSync('pw', pw);
-          wx.request({
-            url: 'https://lite.lianlianchains.com/chaincode/invoke/',
-            data: {
-              callerID: 'zhenghong',
-              callerToken: '847768148',
-              chaincodeID: '81993fe27bc13aeb9939265e758e8072b24402374b0d264ab21216f989ae29fc',
-              args: '["recharge","' + mobile + '", "100"]',
-              codeLanguage: 'GO_LANG'
-            },
-            method: 'POST',
-            header: {
-              'content-type': 'application/x-www-form-urlencoded'
-            },
-            success: function (res) {
-              that.setData({
-                hiddenLoading: true
-              });
-              if (res.data.result == "error") {
-                that.setData({
-                  'tip': "网络异常"
+          recharge(mobile,0).then(result => {
+             if (/complete/.test(result)){
+                wx.redirectTo({
+                   url: '../index/index'
                 })
-
-                setTimeout(function () {
-                  that.setData({
-                    'tipflag': false
-                  })
-                }
-                  , 3000)
-
-                return;
-              }
-              wx.redirectTo({
-                url: '../index/index'
-              })
-
-            }
+             }
+             
+          }).catch(error => {
+             
           })
+         //  wx.request({
+         //     url: 'https://store.lianlianchains.com/chaincode/invoke/',
+         //    data: {
+         //      callerID: 'zhenghong',
+         //      callerToken: '847768148',
+         //      chaincodeID: '81993fe27bc13aeb9939265e758e8072b24402374b0d264ab21216f989ae29fc',
+         //      args: '["recharge","' + mobile + '", "100"]',
+         //      codeLanguage: 'GO_LANG'
+         //    },
+         //    method: 'POST',
+         //    header: {
+         //      'content-type': 'application/x-www-form-urlencoded'
+         //    },
+         //    success: function (res) {
+         //      that.setData({
+         //        hiddenLoading: true
+         //      });
+         //      if (res.data.result == "error") {
+         //        that.setData({
+         //          'tip': "网络异常"
+         //        })
+
+         //        setTimeout(function () {
+         //          that.setData({
+         //            'tipflag': false
+         //          })
+         //        }
+         //          , 3000)
+
+         //        return;
+         //      }
+         //      wx.redirectTo({
+         //        url: '../index/index'
+         //      })
+
+         //    }
+         //  })
         }
       }
     })

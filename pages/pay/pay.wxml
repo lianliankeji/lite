@@ -20,7 +20,7 @@
         <!--积分-->
         <view class="resultItem">
             <!--<text>BAE</text>-->
-            <text>{{scoreResult}} S</text>
+            <text>{{scoreResult}} BAE</text>
         </view>
     </view>
     <!--<button class="successBtn" type="primary" bindtap="bindHmeViewTap">完成</button>-->

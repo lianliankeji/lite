@@ -1,13 +1,44 @@
 // pages/peer/peer.js
 Page({
   data: {
+     num:0,
     peers: [],
     height: 0,
     blocks: [],
-    isBlockShow: true,  //区块显示
-    BlockbgColor: "#999999",
-    NodebgColor: "f8f8f8",
+    loadMoreMsg:'加载更多',
+    isBlockShow: false  //区块显示
     // hiddenLoading:false
+  },
+  loadMore(){
+     let that = this;
+     this.data.num++;
+     for (var i = this.data.height - 1 - this.data.num * 4, index = 0; i > this.data.height - 5- this.data.num*4; i-- , index++) {
+         if(i < 0){
+            this.setData({
+               loadMoreMsg: '没有更多了'
+            })
+            return
+         }
+        wx.request({
+           url: 'https://store.lianlianchains.com/chain/blocks/' + i,
+           data: {
+           },
+           header: {
+              'content-type': 'application/json'
+           },
+           success: function (res) {
+                 if (res.data.stateHash) {
+                    that.data.blocks.push(res.data.stateHash)
+                 }
+
+                 that.setData({
+                    'blocks': that.data.blocks,
+                    hiddenLoading: true
+                 })
+
+           }
+        })
+     }
   },
   //分享模块
   onShareAppMessage: function () {
@@ -25,10 +56,12 @@ Page({
   onCommenEvent: function () {
     var that = this
     // hiddenLoading:false;
+    
     // 节点信息
     wx.request({
-      url: 'https://health.lianlianchains.com/network/peers',
+       url: 'https://store.lianlianchains.com/network/peers',
       data: {
+         
       },
       header: {
         'content-type': 'application/json'
@@ -43,7 +76,7 @@ Page({
 
     // 区块信息
     wx.request({
-      url: 'https://health.lianlianchains.com/chain',
+       url: 'https://store.lianlianchains.com/chain',
       data: {
       },
       header: {
@@ -58,7 +91,7 @@ Page({
         for (var i = res.data.height - 1, index = 0; i > res.data.height - 5; i-- , index++) {
 
           wx.request({
-            url: 'https://health.lianlianchains.com/chain/blocks/' + i,
+             url: 'https://store.lianlianchains.com/chain/blocks/' + i,
             data: {
             },
             header: {
@@ -66,31 +99,31 @@ Page({
             },
             success: function (res) {
               if (that.data.blocks.length <= 3) {
-                that.data.blocks.push(res.data.stateHash)
+                 if (res.data.stateHash){
+                    that.data.blocks.push(res.data.stateHash)
+                 }
+                 
                 that.setData({
                   'blocks': that.data.blocks,
                   hiddenLoading: true
                 })
               }
-              if (that.data.blocks.length > 3) {
-                wx.stopPullDownRefresh();
-              }
+            //   if (that.data.blocks.length > 3) {
+            //     wx.stopPullDownRefresh();
+            //   }
 
             }
           })
         }
       }
     })
-    setTimeout(function () {
-      that.setData({
-        hiddenLoading: true
-      })
-    }, 8000);
-  },
-  //下拉刷新
-  onPullDownRefresh: function () {
-    var that = this;
-    that.onCommenEvent();
+   //关闭下拉刷新
+    var timer = setTimeout(function () {
+       wx.stopPullDownRefresh();
+       wx.hideNavigationBarLoading()
+       clearTimeout(timer)
+    }, 2000)
+    
   },
   onLoad: function (options) {
     
@@ -108,21 +141,22 @@ Page({
     })
   },
   //显示区块内容隐藏节点内容
-  bindBlockNavTap: function (event) {
-    var that = this;
-    that.setData({
-      isBlockShow: true,
-      BlockbgColor: "#999999",
-      NodebgColor: "#f8f8f8"
+  bindBlockNavTap(event) {
+    this.setData({
+      isBlockShow: true
     })
   },
   //显示节点内容隐藏区块内容
-  bindNodeNavTap: function (event) {
-    var that = this;
-    that.setData({
-      isBlockShow: false,
-      BlockbgColor: "#f8f8f8",
-      NodebgColor: "#999999"
+  bindNodeNavTap(event) {
+    this.setData({
+      isBlockShow: false
     })
+  },
+  onPullDownRefresh() {
+     wx.showNavigationBarLoading()
+     this.setData({
+        num:0
+     })
+     this.onCommenEvent();
   }
 })
