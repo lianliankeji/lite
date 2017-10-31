@@ -1,0 +1,54 @@
+.container{
+
+}
+
+.data{
+
+}
+.data .top{
+  padding: 82rpx 0 72rpx;
+  text-align: center;
+  border-bottom: 1px #ececec solid;
+}
+.data .top .unit{
+  font-size: 28rpx;
+  color: #999999;
+  
+}
+.data .top .increase{
+  font-size: 48rpx;
+  color: #333333;
+}
+.data .content .nav{
+  display: flex;
+  justify-content: space-between;
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #007B00;
+  letter-spacing: -0.34px;
+  padding: 76rpx 30rpx 24rpx;
+  position: relative;
+} 
+.data .content .nav:after{
+  content:"";
+  display: block;
+  height: 1px;
+  position: absolute;
+  left: 30rpx;
+  bottom: 0;
+  right: 30rpx;
+  background-color: #ddd;
+}
+.data .content .nav .navItem{
+  width: 160rpx;
+  text-align: center;
+}
+.data .content .datalist{
+  font-size: 28rpx;
+  color: #333333;
+}
+.data .content .datalist .item{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40rpx;
+}

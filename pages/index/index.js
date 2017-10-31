@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 import fetch from '../../utils/fetch'
-import { recharge, query, transfer } from '../../utils/score'
+import { recharge, query, transfer, moviequery, moviekaihuquery, moviekaihu } from '../../utils/score'
 var app = getApp()
 Page({
    data: {
@@ -13,7 +13,45 @@ Page({
       store: 0,
       total: 0,
       patent: 0,
-      patentB: 0
+      patentB: 0,
+      prolist:[
+        {
+          img_url: "../../image/store.png",
+          title: "智能新零售",
+          score: "0 SCT",
+          desc: "零售+AI,助力零售业健康转型"
+        },
+        {
+          img_url: "../../image/movie.png",
+          title: "影业新金融",
+          score: "0 FRT",
+          desc: "影业+金融,助力影视业持续发展"
+        },
+        
+        {
+          img_url: "../../image/exchange.png",
+          title: "二手物交换",
+          score: "0 EST",
+          desc: "交换+社交，基于附近的物物交换"
+        },
+      ]
+   },
+   bindPageView(e) {
+     console.log(e.currentTarget.dataset.index);
+     let index = e.currentTarget.dataset.index;
+     let unionId = wx.getStorageSync('unionId');
+    //  if (!unionId) {
+    //    wx.navigateTo({
+    //      url: '../bind/bind'
+    //    });
+    //    return;
+    //  }
+     if(index === 1) {
+      wx.navigateTo({
+        url: '../moviedetail/moviedetail',
+      })
+     }
+
    },
    //分享模块
    onShareAppMessage: function () {
@@ -118,6 +156,43 @@ Page({
          duration: 2000
       })
    },
+   _scoreQuery(unionId) {
+     var that = this;
+     //获取资产余额
+     query(unionId).then(result => {
+       console.log(result);
+       console.log(unionId);
+       console.log("快点查询成功",result);
+
+       if (result == 'tx error') {
+         that.data.prolist.setData({
+           store: 0
+         })
+         return
+       }
+       that.data.prolist[0].score = result + " SCT";
+       that.setData({
+         prolist: that.data.prolist
+       })
+       wx.setStorageSync('total', result)
+     }).catch(err => {
+       console.log("出错了")
+       console.log(err)
+     });
+
+
+    //  moviequery(unionId, unionId).then(result => {
+    //    console.log(result);
+    //    console.log("查询成功");
+    //    that.data.prolist[0].score = result.msg + " FRT";
+    //    that.setData({
+    //      prolist: that.data.prolist
+    //    })
+    //  }).catch(err => {
+    //    console.log("出错了")
+    //    console.log(err)
+    //  });
+   },
    onCommenTap() {
       var that = this
       //调用应用实例的方法获取全局数据
@@ -127,42 +202,40 @@ Page({
             userInfo: userInfo
          })
       })
+      var unionId = wx.getStorageSync('unionId');
+      console.log(unionId)
+      // if (unionId) {
+        recharge(unionId, 0)
+        this._scoreQuery(unionId)
+        moviekaihuquery(unionId, unionId).then(kaihu => {
+          console.log(kaihu)
+          if (kaihu.msg == "0") {
+            moviekaihu(unionId, unionId).then(() => {
+              this._scoreQuery(unionId)
+            })
+          }
+          if (kaihu.msg == "1") {
+            this._scoreQuery(unionId)
+          }
+        }) 
+      // }
+      
 
       //测试数据
       // wx.setStorageSync('mobile', '18611426275');
       //获取数字资产 积分
-      var mobile = wx.getStorageSync('mobile');
+      
 
-      //获取资产余额
-      if (mobile != '') {
-         query(mobile).then(result => {
-            console.log(result);
-            console.log("查询成功");
-            
-            if (result == 'tx error'){
-               this.setData({
-                  store: 0
-               })
-               return
-            }
-            this.setData({
-               store: result,
-               total: result
-            })
-            wx.setStorageSync('total', result)
-         }).catch(err => {
-            console.log("出错了")
-            console.log(err)
-         });
-      }
+      
+
 
       //获取智能合约二维码
-      if (mobile != '') {
-         that.setData({
-            integralQRCode: "https://store.lianlianchains.com/qrcode/?data=" + mobile + "_" + "stores&width=100&height=100",
-            patentQRCode: "https://store.lianlianchains.com/qrcode/?data=" + mobile + "_" + "health&width=100&height=100"
-         })
-      }
+      // if (mobile != '') {
+      //    that.setData({
+      //       integralQRCode: "https://store.lianlianchains.com/qrcode/?data=" + mobile + "_" + "stores&width=100&height=100",
+      //       patentQRCode: "https://store.lianlianchains.com/qrcode/?data=" + mobile + "_" + "health&width=100&height=100"
+      //    })
+      // }
       //关闭下拉刷新
       var timer = setTimeout(function () {
          wx.stopPullDownRefresh();

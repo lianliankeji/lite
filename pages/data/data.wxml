@@ -1,0 +1,22 @@
+<view class="container">
+  <view class='data'>
+    <view class='top'>
+      <view class='unit'>SCT/CNY</view>
+      <view class='increase'>100+20 20%</view>
+    </view>
+    <view class='content'>
+      <view class='nav'>
+        <text class='navItem'>类型</text>
+        <text class='navItem'>时间</text>
+        <text class='navItem'>数量</text>
+      </view>
+      <view class='datalist'>
+        <view class='item' wx:for="{{detailList}}" wx:for-item="detail" wx:for-index="idx" wx:key="{{idx}}">
+          <text>{{detail.transtype}}</text>
+          <text>{{detail.time}}</text>
+          <text>{{detail.amount}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

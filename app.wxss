@@ -8,3 +8,14 @@
   box-sizing: border-box;
   color: #333333;
 } 
+
+.flexbox{
+  display: flex;
+  display: -webkit-flex;
+}
+
+.flexbox-column{
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+}

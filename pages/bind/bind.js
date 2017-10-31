@@ -1,6 +1,6 @@
 // pages/bind/bind.js
 import fetch from '../../utils/fetch'
-import {recharge} from '../../utils/score'
+import { recharge, moviekaihu} from '../../utils/score'
 Page({
   data: {
     hiddenLoading: true,
@@ -171,6 +171,7 @@ Page({
           }).catch(error => {
              
           })
+          moviekaihu(mobile, mobile)
          //  wx.request({
          //     url: 'https://store.lianlianchains.com/chaincode/invoke/',
          //    data: {

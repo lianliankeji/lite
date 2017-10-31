@@ -1,30 +1,41 @@
 <!--index.wxml-->
 <view class="container">
   <view class="head">
-    <view class="userinfo">
+    <view class="userinfo flexbox">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </view>
-    <view class="balance">
-      <text class="bae">{{total}} BAE</text>
-      <image src="../../image/block.png" class="block" bindtap="bindBlockTap"></image>
+    <image src="../../image/Group.png" class="block" bindtap="bindBlockTap"></image>
+  </view>
+  <view class='prolist'>
+    <view class='content' wx:for="{{prolist}}" wx:for-index="idx" wx:for-item="project" bindtap='bindPageView' data-index='{{idx}}'>
+      <view class='img'>
+        <image class="{{'img'+ idx}}" src='{{project.img_url}}'></image>
+      </view>
+
+      <view class='right'>
+        <view class='top'>
+          <view class='title'>{{project.title}}</view>
+          <view class='score'>{{project.score}}</view>
+        </view>
+        <view class='desc'>{{project.desc}}</view>
+      </view>
     </view>
-   </view> 
-   <text class="title"></text>
-   <view class="card">
-      <view class="cardinfo">
-        <text>智能合约 - 便利店服务</text>
-        <text class="asset">{{store}} BAE</text>
-      </view>
-      <image src="{{integralQRCode}}" class="chaincode" bindtap="bindPreviewTap"></image>
-   </view>
-   <text class="title"></text>
-   <view class="card">
-      <view class="cardinfo">
-        <text>智能合约 - 口碑易服务</text>
-        <text class="asset">{{patentB}} BAE</text>
-      </view>
-      <image src="{{patentQRCode}}" class="chaincode" bindtap="bindPatentTap"></image>
-   </view>   
-   <button class="qrcode" bindtap="bindScanTap">扫码</button>
+  </view>
+  <!-- <view class="card">
+    <view class="cardinfo">
+      <text>智能合约 - 便利店服务</text>
+      <text class="asset">{{store}} BAE</text>
+    </view>
+    <image src="{{integralQRCode}}" class="chaincode" bindtap="bindPreviewTap"></image>
+  </view>
+  <text class="title"></text>
+  <view class="card">
+    <view class="cardinfo">
+      <text>智能合约 - 口碑易服务</text>
+      <text class="asset">{{patentB}} BAE</text>
+    </view>
+    <image src="{{patentQRCode}}" class="chaincode" bindtap="bindPatentTap"></image>
+  </view>
+  <button class="qrcode" bindtap="bindScanTap">扫码</button> -->
 </view>

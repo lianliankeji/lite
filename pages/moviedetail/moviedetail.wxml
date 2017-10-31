@@ -1,0 +1,42 @@
+<view class="container">
+  <view class='head'>
+    <view bindtap='bindScanTap'>
+      <image class='scan' src='../../image/Scan.png'></image>
+      <view class='title'>扫码</view>
+    </view>
+    <view bindtap='dataView'>
+      <image class='data' src="../../image/Data.png"></image>
+      <view class='title'>数据</view>
+    </view>
+  </view>
+  <view class='data' wx:if="{{!scan}}">
+    <view class='top'>
+      <view class='unit'>SCT/CNY</view>
+      <view class='increase'>100+20 20%</view>
+    </view>
+    <view class='content'>
+      <view class='nav'>
+        <text>类型</text>
+        <text>时间</text>
+        <text>数量</text>
+      </view>
+      <view class='datalist'>
+        <view class='item' wx:for="{{[1,2,3]}}">
+          <text>影视制作</text>
+          <text>200SCT</text>
+          <text>08/10 18:00:09</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='movielist' wx:if="{{scan}}">
+    <view class='content' wx:for="{{movielist}}" wx:for-index="idx" wx:for-item="movie"  data-index='{{idx}}'>
+      <image class="img {{'img'+ idx}}" src='{{movie.image}}'></image>
+      <view class='right'>
+        <view class='title'>{{movie.title}}</view>
+        <view class='desc'>{{movie.desc}}</view>
+        <view class='btn' bindtap='scoreView'>支持</view>
+      </view>
+    </view>
+  </view>
+</view>

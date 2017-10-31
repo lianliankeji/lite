@@ -1,4 +1,5 @@
 //app.js
+import { moviekaihu, recharge} from './utils/score'
 App({
   onLaunch: function () {
     //调用API从本地缓存中获取数据
@@ -8,18 +9,18 @@ App({
     var that = this
     var user = wx.getStorageSync('user') || {};
     var userInfo = wx.getStorageSync('userInfo') || {};
-    if ((!user.openid || (user.expires_in || Date.now()) < (Date.now() + 600)) && (!userInfo.nickName)) {
+    // if ((!user.openid || (user.expires_in || Date.now()) < (Date.now() + 600)) && (!userInfo.nickName)) {
       wx.login({
         success: function (res) {
           if (res.code) {
-            wx.getUserInfo({
-              success: function (res) {
-                var objz = {};
-                objz.avatarUrl = res.userInfo.avatarUrl;
-                objz.nickName = res.userInfo.nickName;
-                wx.setStorageSync('userInfo', objz);//存储userInfo  
-              }
-            });
+            // wx.getUserInfo({
+            //   success: function (res) {
+            //     var objz = {};
+            //     objz.avatarUrl = res.userInfo.avatarUrl;
+            //     objz.nickName = res.userInfo.nickName;
+            //     wx.setStorageSync('userInfo', objz);//存储userInfo  
+            //   }
+            // });
             var d = that.globalData;//这里存储了appid、secret、token串   
             var l = 'https://store.lianlianchains.com/wx/getliteopenid?code=' + res.code;
             // var l = 'http://192.168.50.186:9888/wx/getliteopenid?code=' + res.code;
@@ -30,6 +31,33 @@ App({
               // header: {}, // 设置请求的 header    
               success: function (res) {
                  console.log(res)
+                 wx.getUserInfo({
+                   withCredentials: true,
+                   success: function (info) {
+                     console.log(info)
+                     var objz = {};
+                     objz.avatarUrl = info.userInfo.avatarUrl;
+                     objz.nickName = info.userInfo.nickName;
+                     wx.setStorageSync('userInfo', objz);//存储userInfo
+                     wx.request({
+                       url: 'https://store.lianlianchains.com/wx/decodeUserInfo',
+                       data: {
+                         openid: res.data.openid,
+                         session_key: res.data.session_key,
+                         encryptedData: info.encryptedData,
+                         iv: info.iv
+                       },
+                       method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT    
+                       // header: {}, // 设置请求的 header    
+                       success: function (secr) {
+                         console.log(secr)
+                        //  recharge(secr.data.userInfo.unionId,0)
+                        //  moviekaihu(secr.data.userInfo.unionId, secr.data.userInfo.unionId)
+                         wx.setStorageSync('unionId', secr.data.userInfo.unionId);
+                       }
+                     });
+                   }
+                 })
                 var obj = {};
                 obj.openid = res.data.openid;
                 obj.expires_in = Date.now() + res.data.expires_in;
@@ -42,7 +70,7 @@ App({
           }
         }
       });
-    }
+    // }
   },
   getUserInfo: function (cb) {
     var that = this
@@ -65,6 +93,7 @@ App({
   globalData: {
     userInfo: null,
     stores:'6574714a89d14f50448ba41ca3db17029523be445bacdbcf3b5d1ee3abe19a5e',
-    health: ''
+    health: '',
+    movie: ''
   }
 })

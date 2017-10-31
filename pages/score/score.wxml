@@ -7,7 +7,7 @@
             </view>
             <view class="infoAll">
                 <view class="txinfo">
-                    <text>{{tomobile}}</text>
+                    <text>{{15801234157}}</text>
                 </view>
                 <view class="chaincodeID">
                     <text class="idInfo">{{chaincodeID}}</text>

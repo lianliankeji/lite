@@ -5,7 +5,9 @@
     "pages/block/block",
     "pages/bind/bind",
     "pages/score/score",
-    "pages/pay/pay"
+    "pages/pay/pay",
+    "pages/moviedetail/moviedetail",
+    "pages/data/data"
   ],
   "window":{
     "backgroundTextStyle":"light",

@@ -1,5 +1,6 @@
 // import fetch from '../utils/fetch.js';
 const ccId = "6574714a89d14f50448ba41ca3db17029523be445bacdbcf3b5d1ee3abe19a5e";
+const movieccid = "eb9a1541d67eccba8c576fcdf009b559dedbc629d8ece3a1afb20371255840d9"
 
 //区块链积分查询
 export function query(refereeid) {
@@ -156,3 +157,99 @@ export function transfer(refereeid1, refereeid2, amt) {
    //    console.log(err)
    // });
 }
+
+export function moviekaihu(acc, usr) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://192.168.10.100/frt/register',
+      // url: 'https://store.lianlianchains.com/frt/register',
+      data: {
+        acc: acc, //openid
+        usr: usr,
+        ccId: movieccid,
+        func: "account",//转移积分
+      },
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      method: "GET",
+      success: function (res) {
+        resolve(res.data)
+      },
+      fail: function (msg) {
+        console.log('reqest error', msg)
+        reject('fail')
+      }
+    })
+  })
+}
+export function moviekaihuquery(acc, usr) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://192.168.10.100/frt/query',
+      // url: 'https://store.lianlianchains.com/frt/register',
+      data: {
+        acc: acc, //openid
+        usr: usr,
+        ccId: movieccid,
+        func: "queryAcc",//转移积分
+      },
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      method: "GET",
+      success: function (res) {
+        resolve(res.data)
+      },
+      fail: function (msg) {
+        console.log('reqest error', msg)
+        reject('fail')
+      }
+    })
+  })
+}
+
+export function moviequery(acc, usr) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://192.168.10.100/frt/query',
+      // url: 'https://store.lianlianchains.com/frt/query',
+      data: {
+        acc: acc, //openid
+        usr: usr,
+        ccId: movieccid,
+        func: "query",
+      },
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      method: "GET",
+      success: function (res) {
+        resolve(res.data)
+      },
+      fail: function (msg) {
+        console.log('reqest error', msg)
+        reject('fail')
+      }
+    })
+  })
+}
+
+export function moviedetails(usr) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://192.168.10.100/frt/query',
+      data: {
+        usr: usr,
+        ccId: movieccid,
+        func: "queryTx",
+        begSeq: 1,
+        endSeq: 5
+      },
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      method: "GET",
+      success: function (res) {
+        resolve(res.data)
+      },
+      fail: function (msg) {
+        console.log('reqest error', msg)
+        reject('fail')
+      }
+    })
+  })
+}
+
